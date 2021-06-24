@@ -6,8 +6,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:payflow/modules/barcode_scanner/barcode_scanner_status.dart';
 
 class BarcodeScannerController {
+  final statusNotifier = ValueNotifier<BarcodeScannerStatus>(
+    BarcodeScannerStatus(),
+  );
 
-  BarcodeScannerStatus status = BarcodeScannerStatus();
+
+  BarcodeScannerStatus get status => statusNotifier.value;
+  set status(BarcodeScannerStatus status) {
+    statusNotifier.value = status;
+  }
+  
   final barcodeScanner = GoogleMlKit.vision.barcodeScanner();
 
   void getAvailableCameras() async {
@@ -24,6 +32,7 @@ class BarcodeScannerController {
         enableAudio: false,
       );
 
+      await cameraController.initialize();
       status = BarcodeScannerStatus.available(cameraController);
       scanWithCamera();
     }
@@ -126,6 +135,14 @@ class BarcodeScannerController {
     }
     catch (e) {
       print('ERRO DA LEITURA $e');
+    }
+  }
+
+  void dispose() {
+    statusNotifier.dispose();
+    barcodeScanner.close();
+    if (status.showCamera) {
+      status.cameraController!.dispose();
     }
   }
 }
