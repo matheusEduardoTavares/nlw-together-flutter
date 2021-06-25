@@ -26,14 +26,10 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
     _controller.getAvailableCameras();
 
     _controller.statusNotifier.addListener(() {
-      final boletoController = ModalRoute.of(context)?.settings.arguments;
       if (_controller.status.hasBarcode) {
         Navigator.of(context).pushReplacementNamed(
           RoutesName.insertBoleto,
-          arguments: {
-            'boletoController': boletoController,
-            'barcode': _controller.status.barcode
-          }
+          arguments: _controller.status.barcode
         );
       }
     });
@@ -118,9 +114,6 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                     secondaryOnPressed: () {
                       Navigator.of(context).pushNamed(
                         RoutesName.insertBoleto,
-                        arguments: {
-                          'boletoController': ModalRoute.of(context)?.settings.arguments,
-                        }
                       );
                     },
                   ),

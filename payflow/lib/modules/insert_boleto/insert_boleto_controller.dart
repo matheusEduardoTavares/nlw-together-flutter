@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
-import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InsertBoletoController {
@@ -32,21 +31,18 @@ class InsertBoletoController {
     );
   }
 
-  Future<void> saveBankSlip([BoletoListController? controller]) async {
+  Future<void> saveBankSlip() async {
     final instance = await SharedPreferences.getInstance();
     final boletos = instance.getStringList("boletos") ?? <String>[];
     boletos.add(model.toJson());
     await instance.setStringList("boletos", boletos);
-    if (controller != null) {
-      controller.boletos = boletos.map((e) => BoletoModel.fromJson(e)).toList();
-    }
     return;
   }
 
-  Future<void> createBankSlip([BoletoListController? controller]) async {
+  Future<void> createBankSlip() async {
     final form = formKey.currentState;
     if (form!.validate()) {
-      return await saveBankSlip(controller);
+      return await saveBankSlip();
     }
   }
 }

@@ -6,7 +6,6 @@ import 'package:payflow/shared/models/user_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
-import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ 
@@ -22,7 +21,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _homeController = HomeController();
-  final _boletoController = BoletoListController();
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +96,6 @@ class _HomePageState extends State<HomePage> {
                 await Navigator.pushNamed(
                   context,
                   RoutesName.barcodeScanner,
-                  arguments: _boletoController,
                 );
                 setState(() {});
               },
