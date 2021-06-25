@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/widgets/boleto_info/boleto_info_widget.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_widget.dart';
 
 class MeusBoletosPage extends StatefulWidget {
@@ -17,8 +19,25 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Stack(
+          children: [
+            Container(
+              color: AppColors.primary,
+              height: 40,
+              width: double.maxFinite,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: BoletoInfoWidget(),
+            ),
+          ],
+        ),
         Padding(
-          padding: const EdgeInsets.only(top: 24.0),
+          padding: const EdgeInsets.only(
+            top: 24.0,
+            left: 24.0,
+            right: 24.0,
+          ),
           child: Row(
             children: [
               Text(
@@ -29,14 +48,20 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
+          padding: const EdgeInsets.symmetric(
+            vertical: 24.0,
+            horizontal: 24.0,
+          ),
           child: Divider(
             thickness: 1,
             height: 1,
             color: AppColors.stroke,
           ),
         ),
-        BoletoListWidget(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: BoletoListWidget(),
+        ),
       ],
     );
   }

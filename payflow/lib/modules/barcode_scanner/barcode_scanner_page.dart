@@ -24,6 +24,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
       if (_controller.status.hasBarcode) {
         Navigator.of(context).pushReplacementNamed(
           '/insert_boleto',
+          arguments: _controller.status.barcode,
         );
       }
     });

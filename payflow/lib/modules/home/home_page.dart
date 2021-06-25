@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:payflow/modules/extract/extract_page.dart';
 import 'package:payflow/modules/home/home_controller.dart';
 import 'package:payflow/modules/meus_boletos/meus_boletos_page.dart';
+import 'package:payflow/shared/models/user_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  const HomePage({ 
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  final UserModel user;
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final homeController = HomeController();
-  final _pages = [
-    Container(
-      child: MeusBoletosPage(
-        
-      ),
-    ),
-    Container(
-      color: Colors.blue,
-    ),
-  ];
+  final _controller = HomeController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(152.0),
@@ -40,13 +36,14 @@ class _HomePageState extends State<HomePage> {
                   text: 'Olá, ', style: AppTextStyles.titleRegular,
                   children: [
                     TextSpan(
-                      text: 'Gabul', style: AppTextStyles.titleBoldBackground,
+                      text: '${widget.user.name}', 
+                      style: AppTextStyles.titleBoldBackground,
                     ),
                   ],
                 ),
               ),
               subtitle: Text(
-                "Mantenha as suas contas em dia",
+                'Mantenha as suas contas em dia',
                 style: AppTextStyles.captionShape,
               ),
               trailing: Container(
@@ -56,14 +53,26 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(
                     5.0,
-                  )
+                  ),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      widget.user.photoURL,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
         ),
       ),
-      body: _pages[homeController.currentPage],
+      body: [
+        MeusBoletosPage(
+          key: UniqueKey(),
+        ),
+        ExtractPage(
+          key: UniqueKey(),
+        ),
+      ][_controller.currentPage],
       bottomNavigationBar: Container(
         height: 90,
         child: Row(
@@ -72,24 +81,22 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  homeController.setPage(0);
+                  _controller.setPage(0);
                 });
               },
               icon: Icon(
                 Icons.home,
-                color: AppColors.primary,
+                color: _controller.currentPage == 0 ? 
+                  AppColors.primary : AppColors.body,
               ),
             ),
             GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
+              onTap: () async {
+                await Navigator.pushNamed(
                   context,
-                  '/insert_boleto'
+                  '/barcode_scanner'
                 );
-                // Navigator.pushNamed(
-                //   context,
-                //   '/barcode_scanner'
-                // );
+                setState(() {});
               },
               child: Container(
                 height: 56,
@@ -107,12 +114,13 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  homeController.setPage(1);
+                  _controller.setPage(1);
                 });
               },
               icon: Icon(
                 Icons.description_outlined,
-                color: AppColors.body,
+                color: _controller.currentPage == 1 ? 
+                  AppColors.primary : AppColors.body,
               ),
             ),
           ],

@@ -22,7 +22,8 @@ class AuthController {
       _user = user;
       Navigator.pushReplacementNamed(
         context,
-        '/home'
+        '/home',
+        arguments: user,
       );
     }
     else {
