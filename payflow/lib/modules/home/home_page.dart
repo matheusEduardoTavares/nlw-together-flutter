@@ -5,6 +5,8 @@ import 'package:payflow/modules/meus_boletos/meus_boletos_page.dart';
 import 'package:payflow/shared/models/user_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/utils/routes_name.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ 
@@ -19,7 +21,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _controller = HomeController();
+  final _homeController = HomeController();
+  final _boletoController = BoletoListController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,7 @@ class _HomePageState extends State<HomePage> {
         ExtractPage(
           key: UniqueKey(),
         ),
-      ][_controller.currentPage],
+      ][_homeController.currentPage],
       bottomNavigationBar: Container(
         height: 90,
         child: Row(
@@ -81,12 +84,12 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  _controller.setPage(0);
+                  _homeController.setPage(0);
                 });
               },
               icon: Icon(
                 Icons.home,
-                color: _controller.currentPage == 0 ? 
+                color: _homeController.currentPage == 0 ? 
                   AppColors.primary : AppColors.body,
               ),
             ),
@@ -94,7 +97,8 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 await Navigator.pushNamed(
                   context,
-                  '/barcode_scanner'
+                  RoutesName.barcodeScanner,
+                  arguments: _boletoController,
                 );
                 setState(() {});
               },
@@ -114,12 +118,12 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  _controller.setPage(1);
+                  _homeController.setPage(1);
                 });
               },
               icon: Icon(
                 Icons.description_outlined,
-                color: _controller.currentPage == 1 ? 
+                color: _homeController.currentPage == 1 ? 
                   AppColors.primary : AppColors.body,
               ),
             ),

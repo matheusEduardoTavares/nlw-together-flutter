@@ -4,14 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:payflow/modules/insert_boleto/insert_boleto_controller.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/input_text/input_text_widget.dart';
 import 'package:payflow/shared/widgets/set_label_buttons/set_label_buttons.dart';
 
 class InsertBoletoPage extends StatefulWidget {
-  final String? barcode;
   InsertBoletoPage({ 
     Key? key,
-    this.barcode,
   }) : super(key: key);
 
   @override
@@ -20,6 +19,7 @@ class InsertBoletoPage extends StatefulWidget {
 
 class _InsertBoletoPageState extends State<InsertBoletoPage> {
   final _controller = InsertBoletoController();
+  BoletoListController? _boletoController;
 
   final _dueDateInputTextController = MaskedTextController(
     mask: "00/00/0000"
@@ -34,12 +34,22 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
   final _barCodeInputTextController = TextEditingController();
 
   @override 
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    final barcode = arguments != null ? arguments as Map : null;
 
-    if (widget.barcode != null) {
-      _barCodeInputTextController.text = widget.barcode!;
+    final formatArgument = barcode != null ? Map<String, dynamic>.from(barcode) : null;
+
+    if (formatArgument != null) {
+      if (formatArgument.containsKey('barcode')) {
+        _barCodeInputTextController.text = formatArgument['barcode'].toString();
+      }
+      if (formatArgument.containsKey('boletoController')) {
+        _boletoController = formatArgument['boletoController'];
+      }
     }
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -80,6 +90,8 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                         _controller.onChange(name: value);
                       },
                       validator: _controller.validateName,
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: TextInputType.text,
                     ),
                     InputTextWidget(
                       controller: _dueDateInputTextController,
@@ -110,6 +122,8 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                       onChanged: (value) {
                         _controller.onChange(barcode: value);
                       },
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
                     )
                   ],
                 ),
@@ -126,8 +140,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         },
         secondaryLabel: 'Cadastrar',
         secondaryOnPressed: () async {
-          await _controller.createBankSlip();
-
+          await _controller.createBankSlip(_boletoController);
           Navigator.of(context).pop();
         },
       ),
