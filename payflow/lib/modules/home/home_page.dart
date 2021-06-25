@@ -81,8 +81,12 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  '/barcode_scanner'
+                  '/insert_boleto'
                 );
+                // Navigator.pushNamed(
+                //   context,
+                //   '/barcode_scanner'
+                // );
               },
               child: Container(
                 height: 56,

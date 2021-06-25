@@ -12,6 +12,11 @@ import  'package:payflow/shared/themes/app_colors.dart';
 ///Esta referência está mais atualizada:
 ///https://github.com/rocketseat-education/nlw-06-flutter/blob/aula04/lib/shared/themes/app_text_styles.dart
 abstract class AppTextStyles {
+  static final input = GoogleFonts.inter(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColors.input,
+  );
   static final titleHome = GoogleFonts.lexendDeca(
     fontSize: 32,
     fontWeight: FontWeight.w600,
