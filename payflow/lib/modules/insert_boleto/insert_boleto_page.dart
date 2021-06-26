@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:payflow/modules/insert_boleto/insert_boleto_controller.dart';
+import 'package:payflow/shared/auth/auth_controller.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/utils/routes_name.dart';
 import 'package:payflow/shared/widgets/input_text/input_text_widget.dart';
 import 'package:payflow/shared/widgets/set_label_buttons/set_label_buttons.dart';
 
 class InsertBoletoPage extends StatefulWidget {
-  final String? barcode;
   InsertBoletoPage({ 
     Key? key,
-    this.barcode,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,8 @@ class InsertBoletoPage extends StatefulWidget {
 }
 
 class _InsertBoletoPageState extends State<InsertBoletoPage> {
-  final _controller = InsertBoletoController();
+  final _boletoController = InsertBoletoController();
+  final _authController = AuthController();
 
   final _dueDateInputTextController = MaskedTextController(
     mask: "00/00/0000"
@@ -34,12 +35,15 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
   final _barCodeInputTextController = TextEditingController();
 
   @override 
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    final barcode = arguments != null ? arguments.toString() : null;
 
-    if (widget.barcode != null) {
-      _barCodeInputTextController.text = widget.barcode!;
+    if (barcode != null) {
+      _barCodeInputTextController.text = barcode;
     }
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -70,34 +74,36 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                 ),
               ),
               Form(
-                key: _controller.formKey,
+                key: _boletoController.formKey,
                 child: Column(
                   children: [
                     InputTextWidget(
                       label: "Nome do boleto",
                       icon: Icons.description_outlined,
                       onChanged: (value) {
-                        _controller.onChange(name: value);
+                        _boletoController.onChange(name: value);
                       },
-                      validator: _controller.validateName,
+                      validator: _boletoController.validateName,
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: TextInputType.text,
                     ),
                     InputTextWidget(
                       controller: _dueDateInputTextController,
                       label: "Vencimento",
                       icon: FontAwesomeIcons.timesCircle,
                       onChanged: (value) {
-                        _controller.onChange(dueDate: value);
+                        _boletoController.onChange(dueDate: value);
                       },
-                      validator: _controller.validateVencimento,
+                      validator: _boletoController.validateVencimento,
                     ),
                     InputTextWidget(
                       controller: _moneyInputTextController,
                       label: "Valor",
                       icon: FontAwesomeIcons.wallet,
-                      validator: (_) => _controller
+                      validator: (_) => _boletoController
                         .validateValor(_moneyInputTextController.numberValue),
                       onChanged: (value) {
-                        _controller.onChange(
+                        _boletoController.onChange(
                           value: _moneyInputTextController.numberValue
                         );
                       },
@@ -106,10 +112,12 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                       controller: _barCodeInputTextController,
                       label: "Código",
                       icon: FontAwesomeIcons.barcode,
-                      validator: _controller.validateCodigo,
+                      validator: _boletoController.validateCodigo,
                       onChanged: (value) {
-                        _controller.onChange(barcode: value);
+                        _boletoController.onChange(barcode: value);
                       },
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
                     )
                   ],
                 ),
@@ -126,9 +134,17 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         },
         secondaryLabel: 'Cadastrar',
         secondaryOnPressed: () async {
-          await _controller.createBankSlip();
+          await _boletoController.createBankSlip();
+          await _authController.currentUser(context);
+          
+          while (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
+          }
 
-          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed(
+            RoutesName.home,
+            arguments: _authController.user,
+          );
         },
       ),
     );

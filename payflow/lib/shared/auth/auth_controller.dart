@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/user_model.dart';
+import 'package:payflow/shared/utils/routes_name.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController {
@@ -22,14 +23,14 @@ class AuthController {
       _user = user;
       Navigator.pushReplacementNamed(
         context,
-        '/home',
+        RoutesName.home,
         arguments: user,
       );
     }
     else {
       Navigator.pushReplacementNamed(
         context,
-        '/login'
+        RoutesName.login,
       );
     }
   }

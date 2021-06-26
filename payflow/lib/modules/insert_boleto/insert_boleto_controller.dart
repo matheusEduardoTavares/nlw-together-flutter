@@ -42,7 +42,7 @@ class InsertBoletoController {
   Future<void> createBankSlip() async {
     final form = formKey.currentState;
     if (form!.validate()) {
-      return saveBankSlip();
+      return await saveBankSlip();
     }
   }
 }

@@ -19,12 +19,12 @@ class _ExtractPageState extends State<ExtractPage> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 24),
+            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
             child: Row(
               children: [
                 Text(
-                  "Meus extratos", 
-                  style: AppTextStyles.titleBoldHeading
+                  'Meus extratos', 
+                  style: AppTextStyles.titleBoldHeading,
                 ),
               ],
             ),

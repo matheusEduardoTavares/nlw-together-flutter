@@ -3,11 +3,14 @@ import 'package:payflow/modules/barcode_scanner/barcode_scanner_controller.dart'
 import 'package:payflow/modules/barcode_scanner/barcode_scanner_status.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/utils/routes_name.dart';
 import 'package:payflow/shared/widgets/bottom_sheet/bottom_sheet_widget.dart';
 import 'package:payflow/shared/widgets/set_label_buttons/set_label_buttons.dart';
 
 class BarcodeScannerPage extends StatefulWidget {
-  const BarcodeScannerPage({ Key? key }) : super(key: key);
+  const BarcodeScannerPage({ 
+    Key? key,
+   }) : super(key: key);
 
   @override
   _BarcodeScannerPageState createState() => _BarcodeScannerPageState();
@@ -20,16 +23,16 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
   void initState() {
     super.initState();
 
+    _controller.getAvailableCameras();
+
     _controller.statusNotifier.addListener(() {
       if (_controller.status.hasBarcode) {
         Navigator.of(context).pushReplacementNamed(
-          '/insert_boleto',
-          arguments: _controller.status.barcode,
+          RoutesName.insertBoleto,
+          arguments: _controller.status.barcode
         );
       }
     });
-
-    _controller.getAvailableCameras();
   }
 
   @override
@@ -108,7 +111,11 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                       _controller.scanWithCamera();
                     },
                     secondaryLabel: 'Digitar código',
-                    secondaryOnPressed: () {},
+                    secondaryOnPressed: () {
+                      Navigator.of(context).pushNamed(
+                        RoutesName.insertBoleto,
+                      );
+                    },
                   ),
                 );
               }
