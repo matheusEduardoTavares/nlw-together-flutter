@@ -18,4 +18,16 @@ abstract class AppColors{
   static final background = Color(0xFFFFFFFF);
   static final input = Color(0xFFB1B0B8);
   static final secondary = Color(0xFF585666);
+  static final title = Colors.redAccent;
+
+  static Color getColorBasedTheme(
+    bool isDarkTheme, {
+    Color Function(bool)? defineColorBasedCondition,
+  }) {
+    if (defineColorBasedCondition != null) {
+      return defineColorBasedCondition(isDarkTheme);
+    }
+
+    return isDarkTheme ? Colors.white : Colors.black;
+  }
 }

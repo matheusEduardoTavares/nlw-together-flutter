@@ -122,4 +122,9 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.body,
   );
+  static final drawerHeader = GoogleFonts.inter(
+    fontSize: 24,
+    fontWeight: FontWeight.w900,
+    color: AppColors.title,
+  );
 }

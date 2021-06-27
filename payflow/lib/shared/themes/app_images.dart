@@ -11,4 +11,5 @@ abstract class AppImages {
   static const union = "assets/images/union.png";
   static const person = "assets/images/person.png";
   static const google = "assets/images/google.png";
+  static const drawerLogo = "assets/images/drawer_logo.png";
 }

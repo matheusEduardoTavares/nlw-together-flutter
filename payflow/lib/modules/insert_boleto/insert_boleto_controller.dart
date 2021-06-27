@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:payflow/shared/utils/shared_preferences_instance.dart';
 
 class InsertBoletoController {
   final formKey = GlobalKey<FormState>();
@@ -32,7 +32,7 @@ class InsertBoletoController {
   }
 
   Future<void> saveBankSlip() async {
-    final instance = await SharedPreferences.getInstance();
+    final instance = SharedPreferencesInstance.instance!;
     final boletos = instance.getStringList("boletos") ?? <String>[];
     boletos.add(model.toJson());
     await instance.setStringList("boletos", boletos);

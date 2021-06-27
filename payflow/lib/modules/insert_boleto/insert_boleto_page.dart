@@ -143,7 +143,6 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
 
           Navigator.of(context).pushNamed(
             RoutesName.home,
-            arguments: _authController.user,
           );
         },
       ),

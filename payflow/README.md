@@ -45,6 +45,11 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
 
 1. Features:
     1. Melhorado a U.X dos `TextFormField`;
+    2. Adicionado Drawer;
+    3. Adicionado página de configurações;
+    4. Adicionado troca de tema entre DARK / LIGHT;
+    5. Persistido no SharedPreferences o tema;
+    6. Adicionado o Provider para gerenciamento do tema;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
 

@@ -9,4 +9,5 @@ abstract class RoutesName {
   static const splash = '/splash';
   static const barcodeScanner = '/barcode_scanner';
   static const insertBoleto = '/insert_boleto';
+  static const configs = '/configs';
 }
