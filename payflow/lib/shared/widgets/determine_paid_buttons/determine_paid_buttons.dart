@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
+import 'package:payflow/shared/utils/modal_utilities.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/determine_paid_buttons/determine_paid_buttons_controller.dart';
 
@@ -30,22 +31,9 @@ class _DeterminePaidButtonsState extends State<DeterminePaidButtons> {
 
     try {
       await _controller.setIsPaidBoleto(isPaid, widget.boleto, widget.boletoProvider);
-      await showGeneralDialog(
-        context: context, 
-        pageBuilder: (_, __, ___) => AlertDialog(
-          title: const Text('Sucesso'),
-          content: Text('O boleto ${widget.boleto.name} ${isPaid ? 'foi pago' : 'não foi pago'} !!'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              }, 
-              child: const Text('OK'),
-            ),
-          ],
-        )
+      await ModalUtilities.showSuccessModal(
+        content: 'O boleto ${widget.boleto.name} ${isPaid ? 'foi pago' : 'não foi pago'} !!',
       );
-      Navigator.of(context).pop();
     }
     catch (_) {}
 

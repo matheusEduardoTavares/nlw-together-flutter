@@ -4,6 +4,7 @@ import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/utils/modal_utilities.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/determine_paid_buttons/determine_paid_buttons.dart';
 import 'package:provider/provider.dart';
@@ -108,7 +109,20 @@ class BoletoTileWidget extends StatelessWidget {
                     )
                   ),
                   label: const Text('Deletar boleto'),
-                  onPressed: () {},
+                  onPressed: () async {
+                    final boletoToDelete = data.copyWith();
+                    try {
+                      boletoProvider.deleteBoleto(data);
+                      await ModalUtilities.showSuccessModal(
+                        content: 'O boleto ${boletoToDelete.name} foi deletado com sucesso !!',
+                      );
+                    }
+                    catch (_) {
+                      await ModalUtilities.showErrorModal(
+                        content: 'Erro ao deletar o boleto ${boletoToDelete.name}',
+                      );
+                    }
+                  },
                 ),
               ],
             ),

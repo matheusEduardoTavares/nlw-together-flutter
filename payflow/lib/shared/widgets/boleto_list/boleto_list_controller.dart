@@ -66,6 +66,24 @@ class BoletoListController with ChangeNotifier {
     }
   }
 
+  Future<void> deleteBoleto(BoletoModel data) async {
+    final indexBoletoOnList = boletos.indexWhere(
+      (currentBoleto) => currentBoleto.uuid == data.uuid,
+    );
+
+    if (indexBoletoOnList > -1) {
+      final newBoletos = [...boletos];
+      newBoletos.removeAt(indexBoletoOnList);
+
+      final instance = SharedPreferencesInstance.instance;
+      final newBoletosInJson = newBoletos.map((e) => e.toJson()).toList();
+      await instance!.setStringList(BoletoModel.key, newBoletosInJson);
+      _boletos.clear();
+      _boletos.addAll(newBoletos);
+      notifyListeners();
+    }
+  }
+
   void addBoleto(BoletoModel newBoleto) {
     _boletos.add(newBoleto);
     notifyListeners();

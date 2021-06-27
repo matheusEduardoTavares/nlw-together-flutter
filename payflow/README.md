@@ -75,7 +75,8 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
     20. Criado funcionalidade de setar um boleto como pago ou não pago;
     21. Passado toda lógica do boleto para uso do `Provider`, afim de garantir as atualizações da view de forma correta;
     22. Deixado a página de extrato apenas para boletos pagos e com opção de ordenação, e deixado a página dos boletos em si com todos os boletos e mostrando a contagem somente dos não pagos;
-    23. Feito uso do `showModalBottomSheet` para componente onde é possível setar boleto como pago ou não pago, e também deletar um boleto.
+    23. Feito uso do `showModalBottomSheet` para componente onde é possível setar boleto como pago ou não pago, e também deletar um boleto;
+    24. Adicionado funcionalidade de excluir boletos;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
 
