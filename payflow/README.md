@@ -53,17 +53,20 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
 ## ⭐ Atualizações feitas após finalização do evento
 
 1. Features:
-    1. Melhorado a U.X dos `TextFormField`;
+    1. Melhorado a UX dos `TextFormField`;
     2. Adicionado `Drawer`;
     3. Adicionado página de configurações;
     4. Adicionado troca de tema entre DARK / LIGHT;
     5. Persistido no `SharedPreferences` o tema;
     6. Adicionado o Provider para gerenciamento do tema;
-    7. Adicionado loader para o botão de cadastrar um novo boleto (devido os ajustes feitos estava levando um segundo mais ou menos para finalizar o processo, e assim melhora UX para o usuário);
+    7. Adicionado loader para o botão de cadastrar um novo boleto (devido os ajustes feitos estava levando um segundo mais ou menos para finalizar o processo, melhorando, portanto, a UX para o usuário);
     8. Criado os Widgets `LogoutButton` e `LoadingButton`;
     9. Adicionado logout, usando o método da biblioteca do `google_sign_in` para o logout e também limpado os dados do `SharedPreferences`;
     10. Adicionado modal de falha com animação (usando `showGeneralDialog`) no caso de erro ao tentar fazer logout;
     11. Adicionado animação com o `AnimatedCard` na página de configurações;
+    12. Adicionado opções de ordenar os extratos pela data de vencimento ou pelo valor;
+    13. Criado um enum de opções para essa questão de ordenação;
+    14. Criado extension para padronizar e facilitar a ordenação de `List<BoletoModel>`;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
 
