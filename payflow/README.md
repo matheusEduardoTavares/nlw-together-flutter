@@ -80,6 +80,7 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
     25. Adicionado um texto ao lado de "Meus extratos" informando a quantidade de boletos pagos;
     26. Adicionado atualização de boleto via `onLongPress` no `ListTile` referente ao boleto;
     27. Adicionado ícone para o aplicativo usando a biblioteca `flutter_launcher_icons`;
+    28. Adicionado SplashScreen nativa com a lib `flutter_native_splash`;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
     2. O `onChanged` setado para o formulário de criação de boletos pode não ser disparado no caso do código de barras que já vem preenchido, então foi adicionado a atualização do campo no caso de não ser atualizado;
