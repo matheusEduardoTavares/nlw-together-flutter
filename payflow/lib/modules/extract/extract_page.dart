@@ -3,13 +3,17 @@ import 'package:payflow/modules/extract/extract_order_items.dart';
 import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_widget.dart';
 import 'package:provider/provider.dart';
 
 class ExtractPage extends StatefulWidget {
   ExtractPage({
-    Key? key
+    Key? key,
+    required this.boletoProvider,
   }) : super(key: key);
+
+  final BoletoListController boletoProvider;
 
   @override
   _ExtractPageState createState() => _ExtractPageState();
@@ -23,17 +27,37 @@ class _ExtractPageState extends State<ExtractPage> {
     final themeController = Provider.of<ControllerTheme>(context);
     final isDarkTheme = themeController.isDarkTheme;
 
+    if (widget.boletoProvider.paidBoletos.isEmpty) {
+      return Center(
+        child: Text(
+          'Não há nenhum boleto pago', 
+          style: AppTextStyles.getStyleBasedTheme(
+            style: AppTextStyles.titleBoldHeading,
+            isDarkTheme: isDarkTheme,
+          ),
+        ),
+      );
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Meus extratos', 
                   style: AppTextStyles.getStyleBasedTheme(
                     style: AppTextStyles.titleBoldHeading,
+                    isDarkTheme: isDarkTheme,
+                  ),
+                ),
+                Text(
+                  '${widget.boletoProvider.paidBoletos.length} pagos',
+                  style: AppTextStyles.getStyleBasedTheme(
+                    style: AppTextStyles.captionBody,
                     isDarkTheme: isDarkTheme,
                   ),
                 ),
@@ -103,6 +127,8 @@ class _ExtractPageState extends State<ExtractPage> {
             child: BoletoListWidget(
               key: UniqueKey(),
               orderBy: _extractOrder,
+              showOnlyPaid: true,
+              boletoProvider: widget.boletoProvider,
             ),
           )
         ],

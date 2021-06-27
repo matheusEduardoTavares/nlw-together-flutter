@@ -29,7 +29,10 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
       if (_controller.status.hasBarcode) {
         Navigator.of(context).pushReplacementNamed(
           RoutesName.insertBoleto,
-          arguments: _controller.status.barcode
+          arguments: {
+            'barcode': _controller.status.barcode,
+            'isUpdate': false,
+          }
         );
       }
     });
@@ -114,6 +117,9 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                     secondaryOnPressed: () {
                       Navigator.of(context).pushNamed(
                         RoutesName.insertBoleto,
+                        arguments: {
+                          'isUpdate': false,
+                        },
                       );
                     },
                   ),

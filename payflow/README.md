@@ -67,8 +67,21 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
     12. Adicionado opções de ordenar os extratos pela data de vencimento ou pelo valor;
     13. Criado um enum de opções para essa questão de ordenação;
     14. Criado extension para padronizar e facilitar a ordenação de `List<BoletoModel>`;
+    15. Adicionado o campo UUID (usando package uuid) na criação do `BoletoModel` para facilitar o controle interno da entidade;
+    16. Adicionado uma validação mais coerente para a data de vencimento;
+    17. Mostrado na tela de extratos somente os boletos pagos;
+    18. Mostrado mensagem de aviso quando não há boleto pago;
+    19. Criado campo no `BoletoModel` que define se o boleto já foi pago ou não;
+    20. Criado funcionalidade de setar um boleto como pago ou não pago;
+    21. Passado toda lógica do boleto para uso do `Provider`, afim de garantir as atualizações da view de forma correta;
+    22. Deixado a página de extrato apenas para boletos pagos e com opção de ordenação, e deixado a página dos boletos em si com todos os boletos e mostrando a contagem somente dos não pagos;
+    23. Feito uso do `showModalBottomSheet` para componente onde é possível setar boleto como pago ou não pago, e também deletar um boleto;
+    24. Adicionado funcionalidade de excluir boletos;
+    25. Adicionado um texto ao lado de "Meus extratos" informando a quantidade de boletos pagos;
+    26. Adicionado atualização de boleto via `onLongPress` no `ListTile` referente ao boleto;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
+    2. O `onChanged` setado para o formulário de criação de boletos pode não ser disparado no caso do código de barras que já vem preenchido, então foi adicionado a atualização do campo no caso de não ser atualizado;
 
 ---
 

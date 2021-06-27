@@ -17,7 +17,7 @@ class LoadingButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        height: 50.0,
+        height: 55.0,
         width: double.infinity,
         child: ElevatedButton(
           onPressed: onPressed, 

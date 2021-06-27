@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:payflow/shared/auth/auth_controller.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/controller_navigator.dart';
+import 'package:payflow/shared/utils/modal_utilities.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
 import 'package:payflow/shared/widgets/loading_button/loading_button.dart';
 
@@ -42,18 +43,8 @@ class LogoutButton extends StatelessWidget {
           );
         }
         catch (_) {
-          showGeneralDialog(
-            context: context, 
-            pageBuilder: (_, __, ___) => AlertDialog(
-              title: const Text('Erro'),
-              content: const Text('Erro ao tentar sair'),
-              actions: [
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
+          await ModalUtilities.showErrorModal(
+            content: 'Erro ao tentar sair',
           );
 
           ///Só precisa setar para false o andamento aqui pois se der sucesso

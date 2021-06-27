@@ -7,44 +7,43 @@ import 'package:payflow/shared/widgets/boleto_tile/boleto_tile_widget.dart';
 class BoletoListWidget extends StatefulWidget {
   BoletoListWidget({
     Key? key,
+    required this.boletoProvider,
     this.orderBy,
     this.isOrderByExtracts = true,
+    this.showOnlyPaid = false,
   }) : super(key: key);
 
   final ExtractOrderItems? orderBy;
   final bool? isOrderByExtracts;
+  final bool? showOnlyPaid;
+  final BoletoListController boletoProvider;
 
   @override
   _BoletoListWidgetState createState() => _BoletoListWidgetState();
 }
 
 class _BoletoListWidgetState extends State<BoletoListWidget> {
-  final _controller = BoletoListController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<List<BoletoModel>>(
-      valueListenable: _controller.boletosNotifier,
-      builder: (_, boletos, __) {
-        List<BoletoModel> items;
-        items = [...boletos];
+    final boletos = widget.boletoProvider.boletos;
 
-        if ((widget.isOrderByExtracts ?? true) && widget.orderBy != null) {
-          items = _controller.orderByBoletos(items, defineOrder: widget.orderBy);
-        }
+    List<BoletoModel> items;
+    items = [...boletos];
 
-        return Column(
-          children: items.map(
-            (e) => BoletoTileWidget(data: e),
-          ).toList(),
-        );
-      },
+    if (widget.showOnlyPaid ?? false) {
+      items = widget.boletoProvider.paidBoletos;
+    }
+    if ((widget.isOrderByExtracts ?? true) && widget.orderBy != null) {
+      items = widget.boletoProvider.orderBoletos(items, defineOrder: widget.orderBy);
+    }
+
+    return Column(
+      children: items.map(
+        (e) => BoletoTileWidget(
+          data: e,
+          boletoProvider: widget.boletoProvider,
+        ),
+      ).toList(),
     );
   }
 }

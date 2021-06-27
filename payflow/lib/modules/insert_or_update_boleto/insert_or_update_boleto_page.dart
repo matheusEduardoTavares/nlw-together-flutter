@@ -1,49 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:payflow/modules/insert_boleto/insert_boleto_controller.dart';
+import 'package:payflow/modules/insert_or_update_boleto/insert_or_update_boleto_controller.dart';
 import 'package:payflow/shared/auth/auth_controller.dart';
+import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/controller_navigator.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/input_text/input_text_widget.dart';
 import 'package:payflow/shared/widgets/set_label_buttons/set_label_buttons.dart';
 import 'package:provider/provider.dart';
 
-class InsertBoletoPage extends StatefulWidget {
-  InsertBoletoPage({ 
+class InsertOrUpdateBoletoPage extends StatefulWidget {
+  InsertOrUpdateBoletoPage({ 
     Key? key,
+    required this.boletoProvider,
   }) : super(key: key);
 
+  final BoletoListController boletoProvider;
+
   @override
-  _InsertBoletoPageState createState() => _InsertBoletoPageState();
+  _InsertOrUpdateBoletoPageState createState() => _InsertOrUpdateBoletoPageState();
 }
 
-class _InsertBoletoPageState extends State<InsertBoletoPage> {
-  final _boletoController = InsertBoletoController();
+class _InsertOrUpdateBoletoPageState extends State<InsertOrUpdateBoletoPage> {
+  final _boletoController = InsertOrUpdateBoletoController();
   final _authController = AuthController();
   var _isLoadingRegister = false;
+  final _formKey = GlobalKey<FormState>();
+  bool? _isUpdate;
+  BoletoModel? _boleto;
 
-  final _dueDateInputTextController = MaskedTextController(
+  var _dueDateInputTextController = MaskedTextController(
     mask: "00/00/0000"
   );
 
-  final _moneyInputTextController = MoneyMaskedTextController(
+  var _moneyInputTextController = MoneyMaskedTextController(
     leftSymbol: "R\$", 
     initialValue: 0, 
     decimalSeparator: ",",
   );
 
-  final _barCodeInputTextController = TextEditingController();
+  var _barCodeInputTextController = TextEditingController();
+  var _nameController = TextEditingController();
 
   @override 
   void didChangeDependencies() {
-    final arguments = ModalRoute.of(context)?.settings.arguments;
-    final barcode = arguments != null ? arguments.toString() : null;
+    final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final barcode = arguments['barcode'];
+    _isUpdate = arguments['isUpdate'];
+    _boleto = arguments['boleto'];
 
     if (barcode != null) {
       _barCodeInputTextController.text = barcode;
+      _boletoController.onChange(barcode: barcode);
+    }
+    if (_isUpdate! && _boleto != null) {
+      setState(() {
+        _dueDateInputTextController = MaskedTextController(
+          mask: "00/00/0000",
+          text: _boleto!.dueDate,
+        );
+        _moneyInputTextController = MoneyMaskedTextController(
+          leftSymbol: "R\$", 
+          initialValue: _boleto!.value!, 
+          decimalSeparator: ",",
+        );
+        _barCodeInputTextController = TextEditingController(
+          text: _boleto!.barcode,
+        );
+        _nameController = TextEditingController(
+          text: _boleto!.name,
+        );
+
+        _boletoController.onChange(dueDate: _boleto!.dueDate);
+        _boletoController.onChange(value: _boleto!.value);
+        _boletoController.onChange(barcode: _boleto!.barcode);
+        _boletoController.onChange(name: _boleto!.name);
+      });
     }
 
     super.didChangeDependencies();
@@ -57,7 +93,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Inserir boleto'),
+        title: Text('${_isUpdate! ? 'Atualizar' : 'Inserir'} boleto'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -70,7 +106,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 93, vertical: 24),
                 child: Text(
-                  'Preencha os dados do boleto',
+                  '${_isUpdate! ? 'Atualize' : 'Preencha'} os dados do boleto',
                   style: AppTextStyles.getStyleBasedTheme(
                     style: AppTextStyles.titleBoldHeading,
                     isDarkTheme: isDarkTheme,
@@ -79,10 +115,11 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                 ),
               ),
               Form(
-                key: _boletoController.formKey,
+                key: _formKey,
                 child: Column(
                   children: [
                     InputTextWidget(
+                      controller: _nameController,
                       label: "Nome do boleto",
                       icon: Icons.description_outlined,
                       onChanged: (value) {
@@ -138,17 +175,37 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         primaryOnPressed: () {
           Navigator.of(context).pop();
         },
-        secondaryLabel: 'Cadastrar',
+        secondaryLabel: _isUpdate! ? 'Atualizar' : 'Cadastrar',
         secondaryOnPressed: () async {
-          setState(() {
-            _isLoadingRegister = true;
-          });
-          await _boletoController.createBankSlip();
-          await _authController.currentUser(context);
-          
-          ControllerNavigator.removeAllRoutesAndPushNew(
-            RoutesName.home,
-          );
+          if (_formKey.currentState!.validate()) {
+            try {
+              setState(() {
+                _isLoadingRegister = true;
+              });
+              if (!(_isUpdate!)) {
+                await _boletoController.createBankSlip(widget.boletoProvider);
+              }
+              else {
+                final updatedBoleto = _boleto!.copyWith(
+                  barcode: _barCodeInputTextController.value.text,
+                  dueDate: _dueDateInputTextController.value.text,
+                  name: _nameController.value.text,
+                  value: _moneyInputTextController.numberValue,
+                );
+                print(updatedBoleto);
+                await _boletoController.updateBankSlip(widget.boletoProvider, updatedBoleto);
+              }
+              await _authController.currentUser(context);
+              ControllerNavigator.removeAllRoutesAndPushNew(
+                RoutesName.home,
+              );
+            }
+            catch (_) {
+              setState(() {
+                _isLoadingRegister = false;
+              });
+            }
+          }
         },
       ),
     );
