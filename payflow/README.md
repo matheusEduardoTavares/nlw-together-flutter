@@ -32,6 +32,15 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 - [**Flutter**](https://flutter.dev/): Uma UI Toolkit que traz várias facilidades para desenvolvimento Cross-Platform;
 - [**Firebase**](https://firebase.google.com): Trata-se de um “SAAS”, que é um software como serviço, ou seja; é uma ferramenta que disponibiliza vários serviços online, de forma que ao fazer uso deste não é necessário se preocupar em criar um “back-end” e toda infraestrutura por traz do modelo de negócio necessário para a aplicação, pois ele já traz diversas facilidades e possui uma gama muito grande de serviços que podem ser utilizados.
 
+## 🔧 Instalação e execução
+
+Para você poder instalar e executar esta aplicação, será preciso ter instalado o git para clonar este repositório, ter a SKD do Flutter instalada na máquina para poder executar o projeto, e por fim ter um projeto criado no Firebase, possuindo uma aplicação Android associada.
+<br />
+Tendo isto, primeiramente, deve-se filtrar no projeto inteiro e atualizar o identificador da aplicação, para que fique de acordo com o identificador da aplicação cadastrada em seu projeto no Firebase. Pode-se encontrar este identificador em `/android/app/build.gradle`, sendo este o valor da variável `applicationId`. É necessário adaptar este identificador em vários locais, como no próprio `build.gradle`, no `AndroidManifest.xml` dos builds (debug, profile e main), no `MainActivity.kt`, e caso faça uso do iOS, é preciso alterar no `project.pbxproj`.
+<br />
+Por fim, é só baixar o `google-services.json` da aplicação Android associada ao projeto do Firebase, e adicioná-lo no projeto, ficando com o seguinte caminho: `android/app/google-services.json`. **Lembre-se de nunca subir em repositórios o arquivo `google-services.json`**.
+<br />
+Pronto, já é possível buildar o APP.
 
 ## 📲 Contato
 
@@ -45,11 +54,16 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
 
 1. Features:
     1. Melhorado a U.X dos `TextFormField`;
-    2. Adicionado Drawer;
+    2. Adicionado `Drawer`;
     3. Adicionado página de configurações;
     4. Adicionado troca de tema entre DARK / LIGHT;
-    5. Persistido no SharedPreferences o tema;
+    5. Persistido no `SharedPreferences` o tema;
     6. Adicionado o Provider para gerenciamento do tema;
+    7. Adicionado loader para o botão de cadastrar um novo boleto (devido os ajustes feitos estava levando um segundo mais ou menos para finalizar o processo, e assim melhora UX para o usuário);
+    8. Criado os Widgets `LogoutButton` e `LoadingButton`;
+    9. Adicionado logout, usando o método da biblioteca do `google_sign_in` para o logout e também limpado os dados do `SharedPreferences`;
+    10. Adicionado modal de falha com animação (usando `showGeneralDialog`) no caso de erro ao tentar fazer logout;
+    11. Adicionado animação com o `AnimatedCard` na página de configurações;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
 

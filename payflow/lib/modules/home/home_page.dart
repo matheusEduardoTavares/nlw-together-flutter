@@ -42,18 +42,24 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.menu),
                 onPressed: () { _scaffoldKey.currentState!.openDrawer(); },
                 tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                color: AppColors.getColorBasedTheme(isDarkTheme),
+                color: AppColors.getColorBasedTheme(
+                  isDarkTheme,
+                ),
               ),
               title: Text.rich(
                 TextSpan(
-                  text: 'Olá, ', style: AppTextStyles.titleRegular.copyWith(
-                    color: AppColors.getColorBasedTheme(isDarkTheme),
+                  text: 'Olá, ', style: AppTextStyles.getStyleBasedTheme(
+                    style: AppTextStyles.titleRegular,
+                    isDarkTheme: isDarkTheme,
+                    colorToReturnIfIsLightTheme: Colors.black,
                   ),
                   children: [
                     TextSpan(
                       text: '${AuthController.userModel!.name}', 
-                      style: AppTextStyles.titleBoldBackground.copyWith(
-                        color: AppColors.getColorBasedTheme(isDarkTheme),
+                      style: AppTextStyles.getStyleBasedTheme(
+                        style: AppTextStyles.titleBoldBackground,
+                        isDarkTheme: isDarkTheme,
+                        colorToReturnIfIsLightTheme: Colors.black,
                       ),
                     ),
                   ],
@@ -61,8 +67,10 @@ class _HomePageState extends State<HomePage> {
               ),
               subtitle: Text(
                 'Mantenha as suas contas em dia',
-                style: AppTextStyles.captionShape.copyWith(
-                  color: AppColors.getColorBasedTheme(isDarkTheme),
+                style: AppTextStyles.getStyleBasedTheme(
+                  style: AppTextStyles.captionShape,
+                  isDarkTheme: isDarkTheme,
+                  colorToReturnIfIsLightTheme: Colors.black,
                 ),
               ),
               trailing: Container(

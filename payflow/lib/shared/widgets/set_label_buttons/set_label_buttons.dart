@@ -13,6 +13,7 @@ class SetLabelButtons extends StatelessWidget {
     required this.secondaryOnPressed,
     this.enablePrimaryColor = false,
     this.enableSecondaryColor = false,
+    this.isLoading = false,
   }) : super(key: key);
 
   final String primaryLabel;
@@ -21,6 +22,7 @@ class SetLabelButtons extends StatelessWidget {
   final VoidCallback secondaryOnPressed;
   final bool enablePrimaryColor;
   final bool enableSecondaryColor;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,9 @@ class SetLabelButtons extends StatelessWidget {
                 ),
                 DividerVerticalWidget(),
                 Expanded(
-                  child: LabelButton(
+                  child: isLoading ? Center(
+                    child: CircularProgressIndicator(),
+                  ) : LabelButton(
                     onPressed: secondaryOnPressed,
                     label: secondaryLabel,
                     style: enableSecondaryColor ? AppTextStyles.buttonPrimary : null,

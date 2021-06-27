@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/themes/app_images.dart';
 import 'package:payflow/shared/utils/routes_drawer.dart';
+import 'package:payflow/shared/widgets/logout_button/logout_button.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   static var _selectedIndex = 0;
+
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  var _isProcessingLogout = false;
 
   @override 
   Widget build(BuildContext context) {
@@ -23,7 +31,7 @@ class CustomDrawer extends StatelessWidget {
                     Card(
                       elevation: 5.0,
                       child: ListTile(
-                        selected: _selectedIndex == index,
+                        selected: CustomDrawer._selectedIndex == index,
                         leading: RoutesDrawer.items[index].leading,
                         title: Text(RoutesDrawer.items[index].title),
                         onTap: () {
@@ -32,7 +40,7 @@ class CustomDrawer extends StatelessWidget {
                             arguments: RoutesDrawer.items[index].arguments,
                           );
 
-                          _selectedIndex = index;
+                          CustomDrawer._selectedIndex = index;
                         },
                       ),
                     ),
@@ -40,6 +48,11 @@ class CustomDrawer extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+            LogoutButton(
+              isProcessingLogout: _isProcessingLogout,
+              startProcessingLogout: () => setState(() => _isProcessingLogout = true),
+              endProcessingLogout: () => setState(() => _isProcessingLogout = false),
             ),
           ],
         ),

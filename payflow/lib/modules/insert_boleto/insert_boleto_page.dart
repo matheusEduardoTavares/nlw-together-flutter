@@ -5,6 +5,7 @@ import 'package:payflow/modules/insert_boleto/insert_boleto_controller.dart';
 import 'package:payflow/shared/auth/auth_controller.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/utils/controller_navigator.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
 import 'package:payflow/shared/widgets/input_text/input_text_widget.dart';
 import 'package:payflow/shared/widgets/set_label_buttons/set_label_buttons.dart';
@@ -21,6 +22,7 @@ class InsertBoletoPage extends StatefulWidget {
 class _InsertBoletoPageState extends State<InsertBoletoPage> {
   final _boletoController = InsertBoletoController();
   final _authController = AuthController();
+  var _isLoadingRegister = false;
 
   final _dueDateInputTextController = MaskedTextController(
     mask: "00/00/0000"
@@ -127,6 +129,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         ),
       ),
       bottomNavigationBar: SetLabelButtons(
+        isLoading: _isLoadingRegister,
         enableSecondaryColor: true,
         primaryLabel: 'Cancelar',
         primaryOnPressed: () {
@@ -134,14 +137,13 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         },
         secondaryLabel: 'Cadastrar',
         secondaryOnPressed: () async {
+          setState(() {
+            _isLoadingRegister = true;
+          });
           await _boletoController.createBankSlip();
           await _authController.currentUser(context);
           
-          while (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop();
-          }
-
-          Navigator.of(context).pushNamed(
+          ControllerNavigator.removeAllRoutesAndPushNew(
             RoutesName.home,
           );
         },

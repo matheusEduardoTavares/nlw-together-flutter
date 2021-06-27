@@ -127,4 +127,24 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w900,
     color: AppColors.title,
   );
+
+  static TextStyle getStyleBasedTheme({
+    required TextStyle style, 
+    required bool isDarkTheme,
+    Color? colorToReturnIfIsDarkTheme,
+    Color? colorToReturnIfIsLightTheme,
+  }) {
+    if (isDarkTheme) {
+      return style.copyWith(
+        color: colorToReturnIfIsDarkTheme ?? Colors.white,
+      );
+    }
+    else if (colorToReturnIfIsLightTheme != null) {
+      return style.copyWith(
+        color: colorToReturnIfIsLightTheme,
+      );
+    }
+
+    return style;
+  }
 }

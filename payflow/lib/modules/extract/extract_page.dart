@@ -29,17 +29,9 @@ class _ExtractPageState extends State<ExtractPage> {
               children: [
                 Text(
                   'Meus extratos', 
-                  style: AppTextStyles.titleBoldHeading.copyWith(
-                    color: AppColors.getColorBasedTheme(
-                      isDarkTheme,
-                      defineColorBasedCondition: (isDarkTheme) {
-                        if (!isDarkTheme) {
-                          return AppTextStyles.titleBoldHeading.color!;
-                        }
-
-                        return Colors.white;
-                      }
-                    ),
+                  style: AppTextStyles.getStyleBasedTheme(
+                    style: AppTextStyles.titleBoldHeading,
+                    isDarkTheme: isDarkTheme,
                   ),
                 ),
               ],
