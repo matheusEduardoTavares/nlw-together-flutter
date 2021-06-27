@@ -3,6 +3,7 @@ import 'package:payflow/modules/extract/extract_order_items.dart';
 import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -17,11 +18,24 @@ class ExtractPage extends StatefulWidget {
 
 class _ExtractPageState extends State<ExtractPage> {
   var _extractOrder = ExtractOrderItems.none;
+  final _boletoController = BoletoListController();
 
   @override
   Widget build(BuildContext context) {
     final themeController = Provider.of<ControllerTheme>(context);
     final isDarkTheme = themeController.isDarkTheme;
+
+    if (_boletoController.paidBoletos.isEmpty) {
+      return Center(
+        child: Text(
+          'Não há nenhum boleto pago', 
+          style: AppTextStyles.getStyleBasedTheme(
+            style: AppTextStyles.titleBoldHeading,
+            isDarkTheme: isDarkTheme,
+          ),
+        ),
+      );
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -103,6 +117,7 @@ class _ExtractPageState extends State<ExtractPage> {
             child: BoletoListWidget(
               key: UniqueKey(),
               orderBy: _extractOrder,
+              showOnlyPaid: true,
             ),
           )
         ],

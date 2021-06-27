@@ -9,10 +9,12 @@ class BoletoListWidget extends StatefulWidget {
     Key? key,
     this.orderBy,
     this.isOrderByExtracts = true,
+    this.showOnlyPaid = false,
   }) : super(key: key);
 
   final ExtractOrderItems? orderBy;
   final bool? isOrderByExtracts;
+  final bool? showOnlyPaid;
 
   @override
   _BoletoListWidgetState createState() => _BoletoListWidgetState();
@@ -35,6 +37,9 @@ class _BoletoListWidgetState extends State<BoletoListWidget> {
         List<BoletoModel> items;
         items = [...boletos];
 
+        if (widget.showOnlyPaid ?? false) {
+          items = _controller.filterOnlyPaidBoletos(items);
+        }
         if ((widget.isOrderByExtracts ?? true) && widget.orderBy != null) {
           items = _controller.orderBoletos(items, defineOrder: widget.orderBy);
         }

@@ -24,6 +24,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
   final _boletoController = InsertBoletoController();
   final _authController = AuthController();
   var _isLoadingRegister = false;
+  final _formKey = GlobalKey<FormState>();
 
   final _dueDateInputTextController = MaskedTextController(
     mask: "00/00/0000"
@@ -79,7 +80,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                 ),
               ),
               Form(
-                key: _boletoController.formKey,
+                key: _formKey,
                 child: Column(
                   children: [
                     InputTextWidget(
@@ -140,15 +141,23 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         },
         secondaryLabel: 'Cadastrar',
         secondaryOnPressed: () async {
-          setState(() {
-            _isLoadingRegister = true;
-          });
-          await _boletoController.createBankSlip();
-          await _authController.currentUser(context);
-          
-          ControllerNavigator.removeAllRoutesAndPushNew(
-            RoutesName.home,
-          );
+          if (_formKey.currentState!.validate()) {
+            try {
+              setState(() {
+                _isLoadingRegister = true;
+              });
+              await _boletoController.createBankSlip();
+              await _authController.currentUser(context);
+              ControllerNavigator.removeAllRoutesAndPushNew(
+                RoutesName.home,
+              );
+            }
+            catch (_) {
+              setState(() {
+                _isLoadingRegister = false;
+              });
+            }
+          }
         },
       ),
     );

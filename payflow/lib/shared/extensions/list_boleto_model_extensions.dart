@@ -21,4 +21,19 @@ extension ListBoletoModelUtilities on List<BoletoModel> {
       (a, b) => a.value!.compareTo(b.value!)
     );
   }
+
+  List<BoletoModel> filterOnlyPaid() {
+    final onlyPaid = this.fold<List<BoletoModel>>(
+      <BoletoModel>[],
+      (allItemsToReturn, currentBoleto) {
+        final newList = [...allItemsToReturn];
+        if (currentBoleto.isPaid ?? false) {
+          newList.add(currentBoleto);
+        }
+        return newList;
+      } 
+    );
+
+    return onlyPaid;
+  }
 }

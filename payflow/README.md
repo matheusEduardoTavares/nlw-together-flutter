@@ -68,6 +68,11 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
     13. Criado um enum de opções para essa questão de ordenação;
     14. Criado extension para padronizar e facilitar a ordenação de `List<BoletoModel>`;
     15. Adicionado o campo UUID (usando package uuid) na criação do `BoletoModel` para facilitar o controle interno da entidade;
+    16. Adicionado uma validação mais coerente para a data de vencimento;
+    17. Mostrado na tela de extratos somente os boletos pagos;
+    18. Mostrado mensagem de aviso quando não há boleto pago;
+    19. Criado campo no `BoletoModel` que define se o boleto já foi pago ou não;
+    20. Criado funcionalidade de setar um boleto como pago ou não pago;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
 

@@ -8,6 +8,7 @@ class BoletoListController {
   final boletosNotifier = 
     ValueNotifier<List<BoletoModel>>(<BoletoModel>[]);
   List<BoletoModel> get boletos => boletosNotifier.value;
+  List<BoletoModel> get paidBoletos => boletosNotifier.value.filterOnlyPaid();
   set boletos(List<BoletoModel> value) => 
     boletosNotifier.value = value;
 
@@ -18,7 +19,7 @@ class BoletoListController {
   void getBoletos() async {
     try {
       final instance = SharedPreferencesInstance.instance!;
-      final response = instance.getStringList("boletos");
+      final response = instance.getStringList(BoletoModel.key);
       boletos = response!.map((e) => BoletoModel.fromJson(e)).toList();
     } catch (e) {}
   }
@@ -37,6 +38,25 @@ class BoletoListController {
     }
 
     return other;
+  }
+
+  List<BoletoModel> filterOnlyPaidBoletos(List<BoletoModel> listToOrderBy) {
+    return listToOrderBy.filterOnlyPaid();
+  }
+
+  Future<void> updateBoleto(BoletoModel data) async {
+    final indexBoletoOnList = boletos.indexWhere(
+      (currentBoleto) => currentBoleto.uuid == data.uuid,
+    );
+
+    final newBoletos = [...boletos];
+    newBoletos[indexBoletoOnList] = data;
+
+    final instance = SharedPreferencesInstance.instance;
+    final newBoletosInJson = newBoletos.map((e) => e.toJson()).toList();
+    await instance!.setStringList(BoletoModel.key, newBoletosInJson);
+
+    boletos = newBoletos;
   }
 
   void dispose() {

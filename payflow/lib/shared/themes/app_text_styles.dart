@@ -27,6 +27,11 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.background,
   );
+  static final titleHeading = GoogleFonts.lexendDeca(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    color: AppColors.grey,
+  );
   static final titleBoldHeading = GoogleFonts.lexendDeca(
     fontSize: 20,
     fontWeight: FontWeight.w600,

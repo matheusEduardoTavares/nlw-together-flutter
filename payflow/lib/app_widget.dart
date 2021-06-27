@@ -54,6 +54,9 @@ class AppWidget extends StatelessWidget {
             foregroundColor: MaterialStateProperty.all(
               colorBasedTheme,
             ),
+            backgroundColor: MaterialStateProperty.all(
+              AppColors.primary,
+            ),
           ),
         ),
       ),

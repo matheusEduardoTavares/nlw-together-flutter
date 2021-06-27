@@ -12,7 +12,10 @@ class BarcodeScannerController {
 
   BarcodeScannerStatus get status => statusNotifier.value;
   set status(BarcodeScannerStatus status) {
-    statusNotifier.value = status;
+    try {
+      statusNotifier.value = status;
+    }
+    catch(_) {}
   }
   
   final barcodeScanner = GoogleMlKit.vision.barcodeScanner();
