@@ -36,7 +36,7 @@ class _BoletoListWidgetState extends State<BoletoListWidget> {
         items = [...boletos];
 
         if ((widget.isOrderByExtracts ?? true) && widget.orderBy != null) {
-          items = _controller.orderByBoletos(items, defineOrder: widget.orderBy);
+          items = _controller.orderBoletos(items, defineOrder: widget.orderBy);
         }
 
         return Column(

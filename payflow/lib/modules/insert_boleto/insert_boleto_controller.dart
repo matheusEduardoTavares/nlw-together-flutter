@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:payflow/shared/utils/shared_preferences_instance.dart';
+import 'package:uuid/uuid.dart';
 
 class InsertBoletoController {
   final formKey = GlobalKey<FormState>();
@@ -34,7 +35,13 @@ class InsertBoletoController {
   Future<void> saveBankSlip() async {
     final instance = SharedPreferencesInstance.instance!;
     final boletos = instance.getStringList("boletos") ?? <String>[];
-    boletos.add(model.toJson());
+    final generator = Uuid();
+    final uuid = generator.v4();
+    final modelWithUuid = model.copyWith(
+      uuid: uuid,
+    );
+    assert(modelWithUuid.uuid == null, 'ANTES DE SALVAR NO BANCO É OBRIGATÓRIO ADICIONAR O UUID PARA IDENTIFICAR A ENTIDADE');
+    boletos.add(modelWithUuid.toJson());
     await instance.setStringList("boletos", boletos);
     return;
   }

@@ -23,7 +23,7 @@ class BoletoListController {
     } catch (e) {}
   }
 
-  List<BoletoModel> orderByBoletos(List<BoletoModel> listToOrderBy, {ExtractOrderItems? defineOrder}) {
+  List<BoletoModel> orderBoletos(List<BoletoModel> listToOrderBy, {ExtractOrderItems? defineOrder}) {
     if (defineOrder == null) {
       return listToOrderBy;
     }

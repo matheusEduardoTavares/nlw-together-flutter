@@ -67,6 +67,7 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
     12. Adicionado opções de ordenar os extratos pela data de vencimento ou pelo valor;
     13. Criado um enum de opções para essa questão de ordenação;
     14. Criado extension para padronizar e facilitar a ordenação de `List<BoletoModel>`;
+    15. Adicionado o campo UUID (usando package uuid) na criação do `BoletoModel` para facilitar o controle interno da entidade;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
 
