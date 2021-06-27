@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/widgets/divider_vertical/divider_vertical_widget.dart';
 import 'package:payflow/shared/widgets/label_button/label_button.dart';
+import 'package:provider/provider.dart';
 
 class SetLabelButtons extends StatelessWidget {
   const SetLabelButtons({ 
@@ -26,6 +28,9 @@ class SetLabelButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ControllerTheme>(context);
+    final isDarkTheme = themeController.isDarkTheme;
+
     return Container(
       color: AppColors.background,
       height: 57,
@@ -45,7 +50,11 @@ class SetLabelButtons extends StatelessWidget {
                   child: LabelButton(
                     onPressed: primaryOnPressed,
                     label: primaryLabel,
-                    style: enablePrimaryColor ? AppTextStyles.buttonPrimary : null,
+                    style: enablePrimaryColor ? AppTextStyles.getStyleBasedTheme(
+                      style: AppTextStyles.buttonPrimary,
+                      isDarkTheme: isDarkTheme,
+                      colorToReturnIfIsDarkTheme: Colors.white,
+                    ) : null,
                   ),
                 ),
                 DividerVerticalWidget(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ButtonLoading extends StatelessWidget {
-  const ButtonLoading({ 
+class LoadingButton extends StatelessWidget {
+  const LoadingButton({ 
     Key? key,
     required this.onPressed,
     required this.child,

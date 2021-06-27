@@ -4,7 +4,7 @@ import 'package:payflow/shared/auth/auth_controller.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/controller_navigator.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
-import 'package:payflow/shared/widgets/button_loading/button_loading.dart';
+import 'package:payflow/shared/widgets/loading_button/loading_button.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({ 
@@ -20,7 +20,7 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonLoading(
+    return LoadingButton(
       child: Text(
         'Sair',
         style: AppTextStyles.buttonBackground,

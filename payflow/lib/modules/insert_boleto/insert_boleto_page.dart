@@ -3,12 +3,13 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:payflow/modules/insert_boleto/insert_boleto_controller.dart';
 import 'package:payflow/shared/auth/auth_controller.dart';
-import 'package:payflow/shared/themes/app_colors.dart';
+import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/controller_navigator.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
 import 'package:payflow/shared/widgets/input_text/input_text_widget.dart';
 import 'package:payflow/shared/widgets/set_label_buttons/set_label_buttons.dart';
+import 'package:provider/provider.dart';
 
 class InsertBoletoPage extends StatefulWidget {
   InsertBoletoPage({ 
@@ -50,14 +51,13 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ControllerTheme>(context);
+    final isDarkTheme = themeController.isDarkTheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
         elevation: 0,
-        leading: BackButton(
-          color: AppColors.input,
-        ),
+        title: const Text('Inserir boleto'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -71,7 +71,10 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 93, vertical: 24),
                 child: Text(
                   'Preencha os dados do boleto',
-                  style: AppTextStyles.titleBoldHeading,
+                  style: AppTextStyles.getStyleBasedTheme(
+                    style: AppTextStyles.titleBoldHeading,
+                    isDarkTheme: isDarkTheme,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
