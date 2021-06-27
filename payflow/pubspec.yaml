@@ -30,6 +30,17 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.0
+  flutter_native_splash: ^1.1.8
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/payflow_logo_icon.png"
+
+flutter_native_splash:
+  background_image: "assets/images/payflow_logo_icon.png"
+  web: false
 
 flutter:
   uses-material-design: true
