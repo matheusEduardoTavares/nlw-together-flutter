@@ -1,9 +1,11 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
+import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/widgets/boleto_info/boleto_info_widget.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_widget.dart';
+import 'package:provider/provider.dart';
 
 class MeusBoletosPage extends StatefulWidget {
   const MeusBoletosPage({ 
@@ -17,6 +19,9 @@ class MeusBoletosPage extends StatefulWidget {
 class _MeusBoletosPageState extends State<MeusBoletosPage> {
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ControllerTheme>(context);
+    final isDarkTheme = themeController.isDarkTheme;
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -43,7 +48,18 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
               children: [
                 Text(
                   'Meus boletos', 
-                  style: AppTextStyles.titleBoldHeading,
+                  style: AppTextStyles.titleBoldHeading.copyWith(
+                    color: AppColors.getColorBasedTheme(
+                      isDarkTheme,
+                      defineColorBasedCondition: (isDarkTheme) {
+                        if (!isDarkTheme) {
+                          return AppTextStyles.titleBoldHeading.color!;
+                        }
+
+                        return Colors.white;
+                      }
+                    ),
+                  ),
                 ),
               ],
             ),

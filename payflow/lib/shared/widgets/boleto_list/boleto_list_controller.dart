@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:payflow/shared/utils/shared_preferences_instance.dart';
 
 class BoletoListController {
   final boletosNotifier = 
@@ -15,7 +15,7 @@ class BoletoListController {
 
   void getBoletos() async {
     try {
-      final instance = await SharedPreferences.getInstance();
+      final instance = SharedPreferencesInstance.instance!;
       final response = instance.getStringList("boletos");
       boletos = response!.map((e) => BoletoModel.fromJson(e)).toList();
     } catch (e) {}

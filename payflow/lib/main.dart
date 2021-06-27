@@ -1,17 +1,31 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:payflow/app_widget.dart';
+import 'package:payflow/shared/models/controller_theme.dart';
+import 'package:payflow/shared/utils/shared_preferences_instance.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(AppFirebase());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesInstance.initializeInstance();
+  final _isDarkTheme = SharedPreferencesInstance.instance!.getBool(
+    ControllerTheme.key,
+  );
+
+  runApp(
+    AppFirebase(
+      isDarkTheme: _isDarkTheme,
+    ),
+  );
 }
 
-class AppFirebase extends StatefulWidget {
-  @override
-  _AppFirebaseState createState() => _AppFirebaseState();
-}
+class AppFirebase extends StatelessWidget {
+  AppFirebase({
+    this.isDarkTheme,
+  });
 
-class _AppFirebaseState extends State<AppFirebase> {
+  final bool? isDarkTheme;
+
   final _initialization = Firebase.initializeApp();
 
   @override
@@ -36,7 +50,12 @@ class _AppFirebaseState extends State<AppFirebase> {
           );
         }
         else if (snapshot.connectionState == ConnectionState.done) {
-          return AppWidget();
+          return ChangeNotifierProvider<ControllerTheme>(
+            create: (_) => ControllerTheme(
+              isDarkTheme: isDarkTheme,
+            ),
+            builder: (_, __) => AppWidget(),
+          );
         }
 
         return Material(

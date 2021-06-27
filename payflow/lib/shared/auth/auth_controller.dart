@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/user_model.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:payflow/shared/utils/shared_preferences_instance.dart';
 
 class AuthController {
-  UserModel? _user;
+  static UserModel? userModel;
 
   ///O usuário pode estar nulo, 
   ///então temos que por um ? 
@@ -15,16 +15,15 @@ class AuthController {
   ///garantimos que só chamaremos 
   ///o getter se de fato o usuário
   ///estiver preenchido
-  UserModel get user => _user!;
+  // UserModel get user => _user!;
 
   void setUser(BuildContext context, UserModel? user) {
     if (user != null) {
+      userModel = user;
       saveUser(user);
-      _user = user;
       Navigator.pushReplacementNamed(
         context,
         RoutesName.home,
-        arguments: user,
       );
     }
     else {
@@ -36,13 +35,13 @@ class AuthController {
   }
 
   Future<void> saveUser(UserModel user) async {
-    final instance = await SharedPreferences.getInstance();
+    final instance = SharedPreferencesInstance.instance!;
     await instance.setString("user", user.toJson());
     return;
   }
 
   Future<void> currentUser(BuildContext context) async {
-    final instance = await SharedPreferences.getInstance();
+    final instance = SharedPreferencesInstance.instance!;
     await Future.delayed(const Duration(seconds: 2));
     if (instance.containsKey('user')) {
       final json = instance.getString('user')!;
