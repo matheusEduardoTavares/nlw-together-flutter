@@ -45,11 +45,19 @@ class _ExtractPageState extends State<ExtractPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Meus extratos', 
                   style: AppTextStyles.getStyleBasedTheme(
                     style: AppTextStyles.titleBoldHeading,
+                    isDarkTheme: isDarkTheme,
+                  ),
+                ),
+                Text(
+                  '${widget.boletoProvider.paidBoletos.length} pagos',
+                  style: AppTextStyles.getStyleBasedTheme(
+                    style: AppTextStyles.captionBody,
                     isDarkTheme: isDarkTheme,
                   ),
                 ),
