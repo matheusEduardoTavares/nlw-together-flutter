@@ -1,8 +1,10 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
+import 'package:payflow/shared/models/controller_theme.dart';
 
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:provider/provider.dart';
 
 class InputTextWidget extends StatelessWidget {
   const InputTextWidget({
@@ -30,6 +32,9 @@ class InputTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ControllerTheme>(context);
+    final isDarkTheme = themeController.isDarkTheme;
+
     return AnimatedCard(
       direction: AnimatedCardDirection.left,
       child: Padding(
@@ -44,11 +49,17 @@ class InputTextWidget extends StatelessWidget {
               initialValue: initalValue,
               validator: validator,
               onChanged: onChanged,
-              style: AppTextStyles.input,
+              style: AppTextStyles.getStyleBasedTheme(
+                style: AppTextStyles.input,
+                isDarkTheme: isDarkTheme,
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
                 labelText: label,
-                labelStyle: AppTextStyles.input,
+                labelStyle: AppTextStyles.getStyleBasedTheme(
+                  style: AppTextStyles.input,
+                  isDarkTheme: isDarkTheme,
+                ),
                 icon: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

@@ -48,17 +48,9 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
               children: [
                 Text(
                   'Meus boletos', 
-                  style: AppTextStyles.titleBoldHeading.copyWith(
-                    color: AppColors.getColorBasedTheme(
-                      isDarkTheme,
-                      defineColorBasedCondition: (isDarkTheme) {
-                        if (!isDarkTheme) {
-                          return AppTextStyles.titleBoldHeading.color!;
-                        }
-
-                        return Colors.white;
-                      }
-                    ),
+                  style: AppTextStyles.getStyleBasedTheme(
+                    style: AppTextStyles.titleBoldHeading,
+                    isDarkTheme: isDarkTheme,
                   ),
                 ),
               ],

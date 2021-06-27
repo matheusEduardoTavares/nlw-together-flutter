@@ -1,3 +1,4 @@
+import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:payflow/modules/configs/configs_controller.dart';
 import 'package:payflow/shared/models/controller_theme.dart';
@@ -32,25 +33,28 @@ class _ConfigsPageState extends State<ConfigsPage> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Tema escuro: '),
-                  Switch(
-                    value: isDarkTheme,
-                    onChanged: (value) {
-                      _controller.changeTheme(value);
-                    },
-                  ),
-                ],
+        child: AnimatedCard(
+          direction: AnimatedCardDirection.top,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('Tema escuro: '),
+                    Switch(
+                      value: isDarkTheme,
+                      onChanged: (value) {
+                        _controller.changeTheme(value);
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

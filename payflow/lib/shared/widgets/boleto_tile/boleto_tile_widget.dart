@@ -1,7 +1,9 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
+import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:provider/provider.dart';
 
 class BoletoTileWidget extends StatelessWidget {
   final BoletoModel data;
@@ -13,25 +15,43 @@ class BoletoTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ControllerTheme>(
+      context,
+    );
+
+    final isDarkTheme = themeController.isDarkTheme;
+
     return AnimatedCard(
       direction: AnimatedCardDirection.right,
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         title: Text(
           data.name!,
-          style: AppTextStyles.titleListTile,
+          style: AppTextStyles.getStyleBasedTheme(
+            style: AppTextStyles.titleListTile,
+            isDarkTheme: isDarkTheme,
+          ),
         ),
         subtitle: Text(
           'Vence em ${data.dueDate}',
-          style: AppTextStyles.captionBody,
+          style: AppTextStyles.getStyleBasedTheme(
+            style: AppTextStyles.captionBody,
+            isDarkTheme: isDarkTheme,
+          ),
         ),
         trailing: Text.rich(TextSpan(
           text: 'R\$ ',
-          style: AppTextStyles.trailingRegular,
+          style: AppTextStyles.getStyleBasedTheme(
+            style: AppTextStyles.trailingRegular,
+            isDarkTheme: isDarkTheme,
+          ),
           children: [
             TextSpan(
               text: '${data.value!.toStringAsFixed(2)}',
-              style: AppTextStyles.trailingBold,
+              style: AppTextStyles.getStyleBasedTheme(
+            style: AppTextStyles.trailingBold,
+            isDarkTheme: isDarkTheme,
+          ),
             ),
           ],
         )),

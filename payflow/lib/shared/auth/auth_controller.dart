@@ -5,6 +5,7 @@ import 'package:payflow/shared/utils/shared_preferences_instance.dart';
 
 class AuthController {
   static UserModel? userModel;
+  static const key = 'user';
 
   ///O usuário pode estar nulo, 
   ///então temos que por um ? 
@@ -36,15 +37,21 @@ class AuthController {
 
   Future<void> saveUser(UserModel user) async {
     final instance = SharedPreferencesInstance.instance!;
-    await instance.setString("user", user.toJson());
+    await instance.setString(key, user.toJson());
+    return;
+  }
+
+  Future<void> removeUser() async {
+    final instance = SharedPreferencesInstance.instance!;
+    await instance.remove(key);
     return;
   }
 
   Future<void> currentUser(BuildContext context) async {
     final instance = SharedPreferencesInstance.instance!;
     await Future.delayed(const Duration(seconds: 2));
-    if (instance.containsKey('user')) {
-      final json = instance.getString('user')!;
+    if (instance.containsKey(key)) {
+      final json = instance.getString(key)!;
       setUser(context, UserModel.fromJson(json));
       return;
     }

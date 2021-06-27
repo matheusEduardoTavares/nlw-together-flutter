@@ -42,6 +42,12 @@ class AppWidget extends StatelessWidget {
           iconTheme: IconThemeData(
             color: colorBasedTheme,
           ),
+          textTheme: ThemeData.light().textTheme.copyWith(
+            headline6: TextStyle(
+              color: colorBasedTheme,
+              fontSize: 20.0,
+            ),
+          ),
         ),
       ),
       initialRoute: RoutesName.splash,
