@@ -7,6 +7,7 @@ import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/controller_navigator.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/input_text/input_text_widget.dart';
 import 'package:payflow/shared/widgets/set_label_buttons/set_label_buttons.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,10 @@ import 'package:provider/provider.dart';
 class InsertBoletoPage extends StatefulWidget {
   InsertBoletoPage({ 
     Key? key,
+    required this.boletoProvider,
   }) : super(key: key);
+
+  final BoletoListController boletoProvider;
 
   @override
   _InsertBoletoPageState createState() => _InsertBoletoPageState();
@@ -146,7 +150,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
               setState(() {
                 _isLoadingRegister = true;
               });
-              await _boletoController.createBankSlip();
+              await _boletoController.createBankSlip(widget.boletoProvider);
               await _authController.currentUser(context);
               ControllerNavigator.removeAllRoutesAndPushNew(
                 RoutesName.home,

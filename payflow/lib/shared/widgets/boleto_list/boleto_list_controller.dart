@@ -1,26 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:payflow/modules/extract/extract_order_items.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:payflow/shared/utils/shared_preferences_instance.dart';
 import 'package:payflow/shared/extensions/list_boleto_model_extensions.dart';
 
-class BoletoListController {
-  final boletosNotifier = 
-    ValueNotifier<List<BoletoModel>>(<BoletoModel>[]);
-  List<BoletoModel> get boletos => boletosNotifier.value;
-  List<BoletoModel> get paidBoletos => boletosNotifier.value.filterOnlyPaid();
-  set boletos(List<BoletoModel> value) => 
-    boletosNotifier.value = value;
+class BoletoListController with ChangeNotifier {
+  final _boletos = <BoletoModel>[];
 
-  BoletoListController() {
-    getBoletos();
+  List<BoletoModel> get boletos => List<BoletoModel>.from(_boletos);
+  List<BoletoModel> get paidBoletos => boletos.filterOnlyPaid();
+  List<BoletoModel> get notPaidBoletos => boletos.filterOnlyNotPaid();
+
+  BoletoListController({bool? isGetBoletos = true}) {
+    if (isGetBoletos ?? true) {
+      getBoletos();
+    }
   }
 
   void getBoletos() async {
     try {
       final instance = SharedPreferencesInstance.instance!;
       final response = instance.getStringList(BoletoModel.key);
-      boletos = response!.map((e) => BoletoModel.fromJson(e)).toList();
+      final boletosFromSharedPreferences = response!.map((e) => BoletoModel.fromJson(e)).toList();
+      _boletos.clear();
+      _boletos.addAll(boletosFromSharedPreferences);
+      notifyListeners();
     } catch (e) {}
   }
 
@@ -49,17 +53,21 @@ class BoletoListController {
       (currentBoleto) => currentBoleto.uuid == data.uuid,
     );
 
-    final newBoletos = [...boletos];
-    newBoletos[indexBoletoOnList] = data;
+    if (indexBoletoOnList > -1) {
+      final newBoletos = [...boletos];
+      newBoletos[indexBoletoOnList] = data;
 
-    final instance = SharedPreferencesInstance.instance;
-    final newBoletosInJson = newBoletos.map((e) => e.toJson()).toList();
-    await instance!.setStringList(BoletoModel.key, newBoletosInJson);
-
-    boletos = newBoletos;
+      final instance = SharedPreferencesInstance.instance;
+      final newBoletosInJson = newBoletos.map((e) => e.toJson()).toList();
+      await instance!.setStringList(BoletoModel.key, newBoletosInJson);
+      _boletos.clear();
+      _boletos.addAll(newBoletos);
+      notifyListeners();
+    }
   }
 
-  void dispose() {
-    boletosNotifier.dispose();
+  void addBoleto(BoletoModel newBoleto) {
+    _boletos.add(newBoleto);
+    notifyListeners();
   }
 }

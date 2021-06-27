@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:payflow/app_widget.dart';
 import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/utils/shared_preferences_instance.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -50,11 +51,17 @@ class AppFirebase extends StatelessWidget {
           );
         }
         else if (snapshot.connectionState == ConnectionState.done) {
-          return ChangeNotifierProvider<ControllerTheme>(
-            create: (_) => ControllerTheme(
-              isDarkTheme: isDarkTheme,
-            ),
-            builder: (_, __) => AppWidget(),
+          return ChangeNotifierProvider<BoletoListController>(
+            create: (ctx) => BoletoListController(),
+            lazy: true,
+            builder: (_ctx, _widget) {
+              return ChangeNotifierProvider<ControllerTheme>(
+                create: (_) => ControllerTheme(
+                  isDarkTheme: isDarkTheme,
+                ),
+                builder: (_, __) => AppWidget(),
+              );
+            }
           );
         }
 

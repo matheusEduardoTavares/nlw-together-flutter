@@ -7,13 +7,17 @@ import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/custom_drawer/custom_drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ 
     Key? key,
+    required this.boletoProvider,
   }) : super(key: key);
+
+  final BoletoListController boletoProvider;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -94,9 +98,11 @@ class _HomePageState extends State<HomePage> {
       body: [
         MeusBoletosPage(
           key: UniqueKey(),
+          boletoProvider: widget.boletoProvider,
         ),
         ExtractPage(
           key: UniqueKey(),
+          boletoProvider: widget.boletoProvider,
         ),
       ][_homeController.currentPage],
       bottomNavigationBar: Container(

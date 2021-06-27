@@ -10,6 +10,7 @@ import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/utils/controller_navigator.dart';
 import 'package:payflow/shared/utils/routes_name.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:provider/provider.dart';
 
 class AppWidget extends StatelessWidget {
@@ -29,6 +30,8 @@ class AppWidget extends StatelessWidget {
     final isDarkTheme = themeController.isDarkTheme;
 
     final colorBasedTheme = isDarkTheme ? Colors.white : Colors.black;
+
+    final boletoProvider = Provider.of<BoletoListController>(context);
 
     return MaterialApp(
       navigatorKey: ControllerNavigator.navigator,
@@ -62,11 +65,11 @@ class AppWidget extends StatelessWidget {
       ),
       initialRoute: RoutesName.splash,
       routes: {
-        RoutesName.home: (ctx) => HomePage(),
+        RoutesName.home: (ctx) => HomePage(boletoProvider: boletoProvider,),
         RoutesName.login: (ctx) => LoginPage(),
         RoutesName.splash: (ctx) => SplashPage(),
         RoutesName.barcodeScanner: (ctx) => BarcodeScannerPage(),
-        RoutesName.insertBoleto: (ctx) => InsertBoletoPage(),
+        RoutesName.insertBoleto: (ctx) => InsertBoletoPage(boletoProvider: boletoProvider,),
         RoutesName.configs: (ctx) => ConfigsPage(),
       }
     );

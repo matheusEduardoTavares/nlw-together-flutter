@@ -36,4 +36,19 @@ extension ListBoletoModelUtilities on List<BoletoModel> {
 
     return onlyPaid;
   }
+
+  List<BoletoModel> filterOnlyNotPaid() {
+    final onlyNotPaid = this.fold<List<BoletoModel>>(
+      <BoletoModel>[],
+      (allItemsToReturn, currentBoleto) {
+        final newList = [...allItemsToReturn];
+        if (!(currentBoleto.isPaid ?? true)) {
+          newList.add(currentBoleto);
+        }
+        return newList;
+      } 
+    );
+
+    return onlyNotPaid;
+  }
 }

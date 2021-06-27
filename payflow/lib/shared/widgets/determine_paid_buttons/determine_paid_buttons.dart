@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/determine_paid_buttons/determine_paid_buttons_controller.dart';
 
 class DeterminePaidButtons extends StatefulWidget {
   const DeterminePaidButtons({ 
     Key? key,
     required this.boleto,
+    required this.boletoProvider,
   }) : super(key: key);
 
   final BoletoModel boleto;
+  final BoletoListController boletoProvider;
 
   @override
   _DeterminePaidButtonsState createState() => _DeterminePaidButtonsState();
@@ -26,7 +29,7 @@ class _DeterminePaidButtonsState extends State<DeterminePaidButtons> {
     });
 
     try {
-      await _controller.setIsPaidBoleto(isPaid, widget.boleto);
+      await _controller.setIsPaidBoleto(isPaid, widget.boleto, widget.boletoProvider);
       await showGeneralDialog(
         context: context, 
         pageBuilder: (_, __, ___) => AlertDialog(

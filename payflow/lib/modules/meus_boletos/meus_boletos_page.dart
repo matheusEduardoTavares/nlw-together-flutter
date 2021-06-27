@@ -4,13 +4,17 @@ import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/widgets/boleto_info/boleto_info_widget.dart';
+import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_widget.dart';
 import 'package:provider/provider.dart';
 
 class MeusBoletosPage extends StatefulWidget {
   const MeusBoletosPage({ 
     Key? key,
+    required this.boletoProvider,
   }) : super(key: key);
+
+  final BoletoListController boletoProvider;
 
   @override
   _MeusBoletosPageState createState() => _MeusBoletosPageState();
@@ -37,6 +41,7 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
                   direction: AnimatedCardDirection.left,
                   child: BoletoInfoWidget(
                     key: UniqueKey(),
+                    boletoProvider: widget.boletoProvider,
                   ),
                 ),
               ],
@@ -66,6 +71,7 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: BoletoListWidget(
               key: UniqueKey(),
+              boletoProvider: widget.boletoProvider,
             ),
           )
         ],

@@ -2,9 +2,7 @@ import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 
 class DeterminePaidButtonsController {
-  final _boletoController = BoletoListController();
-
-  Future<void> setIsPaidBoleto(bool isPaid, BoletoModel boleto) async {
+  Future<void> setIsPaidBoleto(bool isPaid, BoletoModel boleto, BoletoListController providerBoleto) async {
     if (boleto.isPaid == isPaid) {
       return;
     }
@@ -13,7 +11,7 @@ class DeterminePaidButtonsController {
       isPaid: isPaid,
     );
 
-    await _boletoController.updateBoleto(
+    await providerBoleto.updateBoleto(
       boletoUpdated,
     );
   }

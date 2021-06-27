@@ -9,8 +9,11 @@ import 'package:provider/provider.dart';
 
 class ExtractPage extends StatefulWidget {
   ExtractPage({
-    Key? key
+    Key? key,
+    required this.boletoProvider,
   }) : super(key: key);
+
+  final BoletoListController boletoProvider;
 
   @override
   _ExtractPageState createState() => _ExtractPageState();
@@ -18,14 +21,13 @@ class ExtractPage extends StatefulWidget {
 
 class _ExtractPageState extends State<ExtractPage> {
   var _extractOrder = ExtractOrderItems.none;
-  final _boletoController = BoletoListController();
 
   @override
   Widget build(BuildContext context) {
     final themeController = Provider.of<ControllerTheme>(context);
     final isDarkTheme = themeController.isDarkTheme;
 
-    if (_boletoController.paidBoletos.isEmpty) {
+    if (widget.boletoProvider.paidBoletos.isEmpty) {
       return Center(
         child: Text(
           'Não há nenhum boleto pago', 
@@ -118,6 +120,7 @@ class _ExtractPageState extends State<ExtractPage> {
               key: UniqueKey(),
               orderBy: _extractOrder,
               showOnlyPaid: true,
+              boletoProvider: widget.boletoProvider,
             ),
           )
         ],
