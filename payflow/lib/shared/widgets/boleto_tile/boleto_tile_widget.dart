@@ -5,6 +5,7 @@ import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/utils/modal_utilities.dart';
+import 'package:payflow/shared/utils/routes_name.dart';
 import 'package:payflow/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:payflow/shared/widgets/determine_paid_buttons/determine_paid_buttons.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,16 @@ class BoletoTileWidget extends StatelessWidget {
       direction: AnimatedCardDirection.right,
       child: ListTile(
         contentPadding: EdgeInsets.zero,
+        onLongPress: () {
+          Navigator.of(context).pushNamed(
+            RoutesName.insertBoleto,
+            arguments: {
+              'boleto': data,
+              'isUpdate': true,
+              'barcode': data.barcode,
+            }
+          );
+        },
         onTap: () {
           showModalBottomSheet(
             context: context, 
