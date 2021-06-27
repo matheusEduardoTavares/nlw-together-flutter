@@ -49,6 +49,13 @@ class AppWidget extends StatelessWidget {
             ),
           ),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(
+              colorBasedTheme,
+            ),
+          ),
+        ),
       ),
       initialRoute: RoutesName.splash,
       routes: {

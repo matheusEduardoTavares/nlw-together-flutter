@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payflow/modules/extract/extract_order_items.dart';
 import 'package:payflow/shared/models/controller_theme.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
@@ -15,6 +16,8 @@ class ExtractPage extends StatefulWidget {
 }
 
 class _ExtractPageState extends State<ExtractPage> {
+  var _extractOrder = ExtractOrderItems.none;
+
   @override
   Widget build(BuildContext context) {
     final themeController = Provider.of<ControllerTheme>(context);
@@ -24,7 +27,7 @@ class _ExtractPageState extends State<ExtractPage> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
+            padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
             child: Row(
               children: [
                 Text(
@@ -32,6 +35,58 @@ class _ExtractPageState extends State<ExtractPage> {
                   style: AppTextStyles.getStyleBasedTheme(
                     style: AppTextStyles.titleBoldHeading,
                     isDarkTheme: isDarkTheme,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: _extractOrder == ExtractOrderItems.dueDate ? MaterialStateProperty.all(
+                        Colors.green,
+                      ) : null,
+                    ),
+                    child: const Text('Ordenar por data'),
+                    onPressed: () {
+                      if (_extractOrder == ExtractOrderItems.dueDate) {
+                        setState(() {
+                          _extractOrder = ExtractOrderItems.none;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          _extractOrder = ExtractOrderItems.dueDate;
+                        });
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10.0,),
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text('Ordenar por valor'),
+                    style: ButtonStyle(
+                      backgroundColor: _extractOrder == ExtractOrderItems.value ? MaterialStateProperty.all(
+                        Colors.green,
+                      ) : null,
+                    ),
+                    onPressed: () {
+                      if (_extractOrder == ExtractOrderItems.value) {
+                        setState(() {
+                          _extractOrder = ExtractOrderItems.none;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          _extractOrder = ExtractOrderItems.value;
+                        });
+                      }
+                    },
                   ),
                 ),
               ],
@@ -47,6 +102,7 @@ class _ExtractPageState extends State<ExtractPage> {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: BoletoListWidget(
               key: UniqueKey(),
+              orderBy: _extractOrder,
             ),
           )
         ],

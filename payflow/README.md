@@ -64,6 +64,8 @@ Entre em contato comigo por e-mail ou pelo meu LinkedIn:
     9. Adicionado logout, usando o método da biblioteca do `google_sign_in` para o logout e também limpado os dados do `SharedPreferences`;
     10. Adicionado modal de falha com animação (usando `showGeneralDialog`) no caso de erro ao tentar fazer logout;
     11. Adicionado animação com o `AnimatedCard` na página de configurações;
+    12. Adicionado opções de ordenar os extratos pela data de vencimento ou pelo valor;
+    13. Criado um enum de opções para essa questão de ordenação;
 2. Bugfixes:  
     1. Atualizado os boletos automaticamente ao criar um novo;
 
